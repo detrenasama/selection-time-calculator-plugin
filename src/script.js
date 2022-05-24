@@ -63,15 +63,27 @@
         const selection = window.getSelection()
         const text = selection.toString()
 
-        if (!text.match(/\d{2}:\d{2}/))
-            return
-
-        const matches = text.matchAll(/(?<from>\d{2}:\d{2})\s*-\s*(?<to>\d{2}:\d{2})/g)
-
         const intervals = []
-        for (let time of matches){
-            intervals.push(Interval.from(time.groups['from'], time.groups['to']))
+        if (text.match(/\d{2}:\d{2}/)) {
+            const matches = text.matchAll(/(?<from>\d{2}:\d{2})\s*-\s*(?<to>\d{2}:\d{2})/g)
+
+            for (let time of matches){
+                intervals.push(Interval.from(time.groups['from'], time.groups['to']))
+            }
         }
+
+        const additionalRegex = /\+\s*((?<hours>\d+)h)?\s*((?<minutes>\d+)m)/
+        if (text.match(additionalRegex)) {
+            const regexp = new RegExp(additionalRegex.source, additionalRegex.flags + "g");
+            const matches = text.matchAll(regexp)
+
+            for (let time of matches){
+                intervals.push(new Interval(parseInt(time.groups['hours'] || 0), parseInt(time.groups['minutes'] || 0)))
+            }
+        }
+
+        if (intervals.length === 0)
+            return
 
         const result = intervals.reduce((a, e) => {
             a = a.add(e)
