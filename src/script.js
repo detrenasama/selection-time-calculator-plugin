@@ -23,8 +23,13 @@
         const fromHM = fromString.split(':')
         const toHM = toString.split(':')
 
-        const hours = parseInt(toHM[0]) - parseInt(fromHM[0])
-        const minutes = parseInt(toHM[1]) - parseInt(fromHM[1])
+        let hours = parseInt(toHM[0]) - parseInt(fromHM[0])
+        let minutes = parseInt(toHM[1]) - parseInt(fromHM[1])
+
+        if (minutes < 0) {
+            hours -= 1
+            minutes += 60
+        }
 
         return new Interval(hours, minutes)
     }
