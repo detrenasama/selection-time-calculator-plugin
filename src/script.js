@@ -1,9 +1,19 @@
 ;(function () {
-    let Interval = function (hours, minutes) {
-        this.hours = hours
-        this.minutes = minutes
+    class Interval {
+        hours
+        minutes
 
-        this.add = function (other) {
+        constructor(hours, minutes) {
+            if (minutes >= 60) {
+                hours += Math.floor(minutes / 60)
+                minutes = minutes % 60
+            }
+
+            this.hours = hours
+            this.minutes = minutes
+        }
+
+        add(other) {
             let hours = this.hours + other.hours
             let minutes = this.minutes + other.minutes
 
@@ -15,7 +25,7 @@
             return new Interval(hours, minutes)
         }
 
-        this.toString = function() {
+        toString() {
             return this.hours + "h " + this.minutes + "m"
         }
     }
