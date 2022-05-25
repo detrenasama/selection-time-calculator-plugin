@@ -22,11 +22,22 @@
                 minutes = minutes % 60
             }
 
+            if (minutes < 0) {
+                minutes += 60
+                hours -= 1
+            }
+
+
             return new Interval(hours, minutes)
         }
 
         toString() {
             return this.hours + "h " + this.minutes + "m"
+        }
+    }
+    class MinusInterval extends Interval {
+        constructor(hours, minutes) {
+            super(-1*hours, -1*minutes);
         }
     }
     Interval.from = function (fromString, toString) {
@@ -35,6 +46,10 @@
 
         let hours = parseInt(toHM[0]) - parseInt(fromHM[0])
         let minutes = parseInt(toHM[1]) - parseInt(fromHM[1])
+
+        if (hours < 0) {
+            hours += 24
+        }
 
         if (minutes < 0) {
             hours -= 1
@@ -82,13 +97,18 @@
             }
         }
 
-        const additionalRegex = /\+\s*((?<hours>\d+)h)?\s*((?<minutes>\d+)m)/
+        const additionalRegex = /(?<sign>[\+\-])\s*((?<hours>\d+)h)?\s*((?<minutes>\d+)m)/
         if (text.match(additionalRegex)) {
             const regexp = new RegExp(additionalRegex.source, additionalRegex.flags + "g");
             const matches = text.matchAll(regexp)
 
             for (let time of matches){
-                intervals.push(new Interval(parseInt(time.groups['hours'] || 0), parseInt(time.groups['minutes'] || 0)))
+                const signPlus = time.groups['sign'] === '+'
+                if (signPlus) {
+                    intervals.push(new Interval(parseInt(time.groups['hours'] || 0), parseInt(time.groups['minutes'] || 0)))
+                } else {
+                    intervals.push(new MinusInterval(parseInt(time.groups['hours'] || 0), parseInt(time.groups['minutes'] || 0)))
+                }
             }
         }
 
