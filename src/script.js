@@ -64,8 +64,8 @@
         const text = selection.toString()
 
         const intervals = []
-        if (text.match(/\d{2}:\d{2}/)) {
-            const matches = text.matchAll(/(?<from>\d{2}:\d{2})\s*-\s*(?<to>\d{2}:\d{2})/g)
+        if (text.match(/\d{1,2}:\d{1,2}/)) {
+            const matches = text.matchAll(/(?<from>\d{1,2}:\d{1,2})\s*-\s*(?<to>\d{1,2}:\d{1,2})/g)
 
             for (let time of matches){
                 intervals.push(Interval.from(time.groups['from'], time.groups['to']))
