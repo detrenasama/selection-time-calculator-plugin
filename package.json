@@ -1,0 +1,19 @@
+{
+  "name": "time-calculator",
+  "version": "1.0.0",
+  "description": "Allow select time text and shows it interval sums",
+  "main": "src/script.mjs",
+  "scripts": {
+    "test": "node test/unit.mjs"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/detrenasama/selection-time-calculator-plugin.git"
+  },
+  "author": "Detrena",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/detrenasama/selection-time-calculator-plugin/issues"
+  },
+  "homepage": "https://github.com/detrenasama/selection-time-calculator-plugin#readme"
+}
